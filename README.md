@@ -33,7 +33,7 @@ json: For loading and saving application configurations.
 
 Usage 🚀
 
-Double click the exe, and the GUI will guide you through configuring your servers and scheduling commands. If opening the script make sure all the dependencies are installed!.
+Double click the exe it will open the program. Close the program and open it again and a json file will have been created , and then the GUI will guide you through configuring your servers and scheduling commands. If opening the py file itself not the exe make sure all the dependencies are installed!.
 
 Note 📝
 
