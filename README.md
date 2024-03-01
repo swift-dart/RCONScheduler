@@ -37,5 +37,7 @@ Double click the exe it will open the program. Close the program and open it aga
 
 Note 📝
 
-This application is designed for flexibility, allowing for easy expansion or modification to meet specific administrative needs. Whether managing a single server or a fleet, RCONScheduler aims to simplify your tasks through automation.
+This application is designed for flexibility, allowing for easy expansion or modification to meet specific administrative needs. Whether managing a single server or a fleet, RCONScheduler aims to simplify your tasks through automation. 
+
+Join my discord if you need help :D [Discord](https://discord.gg/Xh7BBYCGmn)
 
