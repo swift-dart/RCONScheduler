@@ -54,7 +54,6 @@ def build_executable():
         "--windowed",                   # No console window (GUI only)
         "--name=PumpkinScheduler",      # Executable name
         "--icon=icon.ico",              # Icon file (if exists)
-        "--add-data=.env:.",           # Include .env file (Unix path separator)
         "--hidden-import=pystray._win32",  # Hidden imports for system tray
         "--hidden-import=pystray._darwin", 
         "--hidden-import=pystray._gtk",
@@ -64,6 +63,14 @@ def build_executable():
         "--specpath=.",                 # Spec file location
         str(main_file)                  # Main Python file
     ]
+    
+    # Add .env file if it exists (optional since app auto-generates it)
+    if os.path.exists(".env"):
+        # Use different path separators for different platforms
+        if os.name == 'nt':  # Windows
+            cmd.insert(-1, "--add-data=.env;.")
+        else:  # Unix-like (Linux, macOS)
+            cmd.insert(-1, "--add-data=.env:.")
     
     # Remove icon flag if no icon file exists
     if not os.path.exists("icon.ico"):
