@@ -28,8 +28,14 @@ def create_release_package():
         shutil.rmtree(release_dir)
     release_dir.mkdir()
     
-    # Check if executable exists
-    exe_file = dist_dir / "PumpkinScheduler"
+    # Check if executable exists (try both with and without .exe extension)
+    exe_file = dist_dir / "PumpkinScheduler.exe"  # Windows
+    exe_name = "PumpkinScheduler.exe"
+    
+    if not exe_file.exists():
+        exe_file = dist_dir / "PumpkinScheduler"  # macOS/Linux
+        exe_name = "PumpkinScheduler"
+    
     if not exe_file.exists():
         print("[ERROR] Executable not found. Run build_exe.py first.")
         return False
@@ -40,8 +46,8 @@ def create_release_package():
     package_dir = release_dir / "PumpkinScheduler"
     package_dir.mkdir()
     
-    # Copy executable
-    shutil.copy2(exe_file, package_dir / "PumpkinScheduler")
+    # Copy executable (preserve the correct name for each platform)
+    shutil.copy2(exe_file, package_dir / exe_name)
     
     # Copy documentation (optional - users don't need setup instructions anymore)
     # shutil.copy2(project_root / "docs" / "SETUP_INSTRUCTIONS.txt", package_dir)

@@ -98,15 +98,15 @@ def build_executable():
             exe_path = project_root / "dist" / "PumpkinScheduler"
         
         if exe_path.exists():
-            print(f"📦 Executable created: {exe_path}")
-            print(f"📏 File size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
+            print(f"[INFO] Executable created: {exe_path}")
+            print(f"[INFO] File size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
         
         # Clean up build files (optional)
         if os.getenv('CI'):
             # In CI, always clean up
             cleanup = 'y'
         else:
-            cleanup = input("\n🧹 Clean up build files? (y/N): ").lower().strip()
+            cleanup = input("\n[CLEANUP] Clean up build files? (y/N): ").lower().strip()
         
         if cleanup == 'y':
             if os.path.exists("build"):
