@@ -70,13 +70,19 @@ jobs:
       with:
         path: artifacts
 
+    - name: Rename release files
+      run: |
+        mv "artifacts/PumpkinScheduler-Windows.zip/PumpkinScheduler-Release.zip" "PumpkinScheduler-Windows.zip"
+        mv "artifacts/PumpkinScheduler-macOS.zip/PumpkinScheduler-Release.zip" "PumpkinScheduler-macOS.zip"
+        mv "artifacts/PumpkinScheduler-Linux.zip/PumpkinScheduler-Release.zip" "PumpkinScheduler-Linux.zip"
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          artifacts/PumpkinScheduler-Windows.zip/*
-          artifacts/PumpkinScheduler-macOS.zip/*
-          artifacts/PumpkinScheduler-Linux.zip/*
+          PumpkinScheduler-Windows.zip
+          PumpkinScheduler-macOS.zip
+          PumpkinScheduler-Linux.zip
         body: |
           ## 🎃 PumpkinScheduler Release
           
