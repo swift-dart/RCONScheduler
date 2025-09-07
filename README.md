@@ -248,7 +248,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔄 Changelog
 
-### v3.0.0 - User Experience Revolution
+### v1.0.2 - User Experience Revolution
 - ✅ **Auto-generated encryption keys** - zero manual setup required
 - ✅ **Pre-built executables** for Windows, macOS, and Linux
 - ✅ **User-friendly time selectors** replace complex cron expressions
@@ -259,7 +259,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **Cross-platform tray support** for Windows, macOS, and Linux
 - ✅ **Perfect for production deployment** and automated server management
 
-### v2.0.0 - Professional GUI Overhaul
+### v1.0.1 - Professional GUI Overhaul
 - ✅ Modern, organized GUI with clear sections and labels
 - ✅ Real-time status indicators for server connections
 - ✅ Enhanced visual feedback with emojis and colors
