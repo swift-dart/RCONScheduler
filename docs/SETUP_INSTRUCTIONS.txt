@@ -1,0 +1,53 @@
+# 🎃 PumpkinScheduler Setup Instructions
+
+## Quick Start
+1. **Download** PumpkinScheduler.exe
+2. **Create** a `.env` file in the same folder as the executable
+3. **Add** this line to your `.env` file:
+   ```
+   FERNET_KEY=REPLACE_WITH_YOUR_KEY
+   ```
+4. **Generate** your encryption key (see below)
+5. **Run** PumpkinScheduler.exe
+
+## 🔑 Generate Your Encryption Key
+
+### Option 1: Online Python Interpreter
+1. Go to https://repl.it/languages/python3
+2. Paste this code:
+   ```python
+   from cryptography.fernet import Fernet
+   print(Fernet.generate_key().decode())
+   ```
+3. Copy the generated key to your `.env` file
+
+### Option 2: Command Line (if you have Python)
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+### Option 3: Use This Pre-Generated Key (Less Secure)
+```
+FERNET_KEY=gAAAAABhXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
+```
+
+## 🖥️ Add to Windows Startup (Optional)
+1. Press `Win + R`, type `shell:startup`, press Enter
+2. Copy PumpkinScheduler.exe to this folder
+3. The application will start with Windows and run in system tray
+
+## 🎮 Using PumpkinScheduler
+1. **Add Servers**: Enter your Minecraft/Palworld server details
+2. **Schedule Commands**: Use the easy dropdown menus (no cron needed!)
+3. **Minimize to Tray**: Close the window to run in background
+4. **Restore**: Click the pumpkin icon in system tray
+
+## 🆘 Troubleshooting
+- **App won't start**: Make sure `.env` file exists with valid FERNET_KEY
+- **Can't connect**: Check server IP, port, and RCON password
+- **No system tray**: Try right-clicking near the clock/notification area
+
+## 🔒 Security Notes
+- Keep your `.env` file private
+- Your server passwords are encrypted automatically
+- Each installation should use a unique FERNET_KEY
