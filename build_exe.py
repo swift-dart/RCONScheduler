@@ -16,23 +16,40 @@ def build_executable():
     src_dir = project_root / "src"
     main_file = src_dir / "main.py"
     
-    # Find PyInstaller in virtual environment
-    venv_pyinstaller = project_root / ".venv" / "bin" / "pyinstaller"
-    if not venv_pyinstaller.exists():
-        # Try Windows path
-        venv_pyinstaller = project_root / ".venv" / "Scripts" / "pyinstaller.exe"
+    # Check if we're in CI environment
+    is_ci = os.getenv('CI') == 'true'
     
-    if not venv_pyinstaller.exists():
-        print("❌ PyInstaller not found in virtual environment")
-        print("💡 Run: pip install pyinstaller")
-        return False
+    # Find PyInstaller - check virtual environment first, then global
+    pyinstaller_cmd = None
+    
+    if not is_ci:
+        # Local development - try virtual environment first
+        venv_pyinstaller = project_root / ".venv" / "bin" / "pyinstaller"
+        if not venv_pyinstaller.exists():
+            # Try Windows path
+            venv_pyinstaller = project_root / ".venv" / "Scripts" / "pyinstaller.exe"
+        
+        if venv_pyinstaller.exists():
+            pyinstaller_cmd = str(venv_pyinstaller)
+    
+    # If not found in venv or in CI, try global PyInstaller
+    if pyinstaller_cmd is None:
+        try:
+            result = subprocess.run(['pyinstaller', '--version'], 
+                                  capture_output=True, text=True, check=True)
+            pyinstaller_cmd = 'pyinstaller'
+            print(f"✅ Found PyInstaller: {result.stdout.strip()}")
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("❌ PyInstaller not found")
+            print("💡 Run: pip install pyinstaller")
+            return False
     
     # Ensure we're in the right directory
     os.chdir(project_root)
     
     # PyInstaller command with options
     cmd = [
-        str(venv_pyinstaller),          # Use venv PyInstaller
+        pyinstaller_cmd,                # Use found PyInstaller
         "--onefile",                    # Single executable file
         "--windowed",                   # No console window (GUI only)
         "--name=PumpkinScheduler",      # Executable name
