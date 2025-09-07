@@ -77,10 +77,10 @@ def create_release_package():
 - Visit: https://github.com/swift-dart/RCONScheduler
 - Discord: https://discord.gg/Xh7BBYCGmn
 
-Enjoy your automated server management! �
+Enjoy your automated server management!
 """
     
-    with open(package_dir / "README.txt", "w") as f:
+    with open(package_dir / "README.txt", "w", encoding='utf-8') as f:
         f.write(readme_content)
     
     # Create ZIP file
