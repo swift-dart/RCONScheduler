@@ -51,7 +51,7 @@ jobs:
         CI: true
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.asset_name }}
         path: release/PumpkinScheduler-Release.zip
@@ -62,15 +62,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          PumpkinScheduler-Windows.zip/*
-          PumpkinScheduler-macOS.zip/*
-          PumpkinScheduler-Linux.zip/*
+          artifacts/PumpkinScheduler-Windows.zip/*
+          artifacts/PumpkinScheduler-macOS.zip/*
+          artifacts/PumpkinScheduler-Linux.zip/*
         body: |
           ## 🎃 PumpkinScheduler Release
           
