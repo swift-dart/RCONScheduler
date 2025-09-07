@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Release preparation script for PumpkinScheduler
 Creates distribution packages for different platforms
 """
 import os
+import sys
 import shutil
 import zipfile
 from pathlib import Path
+
+# Set UTF-8 encoding for Windows compatibility
+if sys.platform.startswith('win'):
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 def create_release_package():
     """Create a release package for distribution"""
@@ -23,10 +31,10 @@ def create_release_package():
     # Check if executable exists
     exe_file = dist_dir / "PumpkinScheduler"
     if not exe_file.exists():
-        print("❌ Executable not found. Run build_exe.py first.")
+        print("[ERROR] Executable not found. Run build_exe.py first.")
         return False
     
-    print("📦 Creating release package...")
+    print("[PACKAGE] Creating release package...")
     
     # Create release package contents
     package_dir = release_dir / "PumpkinScheduler"
@@ -40,26 +48,26 @@ def create_release_package():
     # shutil.copy2(project_root / "example.env", package_dir)
     
     # Create README for the package
-    readme_content = """# 🎃 PumpkinScheduler - Ready to Run!
+    readme_content = """# PumpkinScheduler - Ready to Run!
 
-## 🚀 Quick Start
+## Quick Start
 1. Run PumpkinScheduler (double-click the executable)
 2. The application will automatically create encryption keys
 3. Configure your servers and schedule commands!
 4. Minimize to system tray for background operation
 
-## ✨ Features
-- ✅ **No setup required** - encryption keys auto-generated
-- ✅ **User-friendly scheduling** - no cron knowledge needed
-- ✅ **System tray support** - perfect for startup programs
-- ✅ **Secure by design** - passwords encrypted automatically
+## Features
+- **No setup required** - encryption keys auto-generated
+- **User-friendly scheduling** - no cron knowledge needed
+- **System tray support** - perfect for startup programs
+- **Secure by design** - passwords encrypted automatically
 
-## 🎮 Perfect For
+## Perfect For
 - Minecraft server automation
 - Palworld server management  
 - Any RCON-compatible game server
 
-## 🆘 Need Help?
+## Need Help?
 - Visit: https://github.com/swift-dart/RCONScheduler
 - Discord: https://discord.gg/Xh7BBYCGmn
 
@@ -81,17 +89,17 @@ Enjoy your automated server management! �
     exe_size = exe_file.stat().st_size / (1024 * 1024)
     zip_size = zip_path.stat().st_size / (1024 * 1024)
     
-    print(f"✅ Release package created!")
-    print(f"📁 Package location: {package_dir}")
-    print(f"📦 ZIP file: {zip_path}")
-    print(f"📏 Executable size: {exe_size:.1f} MB")
-    print(f"📏 ZIP size: {zip_size:.1f} MB")
+    print(f"[OK] Release package created!")
+    print(f"[INFO] Package location: {package_dir}")
+    print(f"[INFO] ZIP file: {zip_path}")
+    print(f"[INFO] Executable size: {exe_size:.1f} MB")
+    print(f"[INFO] ZIP size: {zip_size:.1f} MB")
     
-    print(f"\n📋 Package Contents:")
+    print(f"\n[CONTENTS] Package Contents:")
     for item in package_dir.iterdir():
         print(f"   - {item.name}")
     
-    print(f"\n🚀 Ready for GitHub Release!")
+    print(f"\n[READY] Ready for GitHub Release!")
     print(f"   1. Upload {zip_path.name} to GitHub Releases")
     print(f"   2. Tag as v3.0.0")
     print(f"   3. Include changelog in release notes")
@@ -99,7 +107,7 @@ Enjoy your automated server management! �
     return True
 
 if __name__ == "__main__":
-    print("🎃 PumpkinScheduler Release Packager")
+    print("PumpkinScheduler Release Packager")
     print("=" * 40)
     
     success = create_release_package()

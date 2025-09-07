@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Build script for creating PumpkinScheduler executable
 """
@@ -7,6 +8,12 @@ import sys
 import subprocess
 import shutil
 from pathlib import Path
+
+# Set UTF-8 encoding for Windows compatibility
+if sys.platform.startswith('win'):
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 def build_executable():
     """Build the executable using PyInstaller"""
@@ -38,10 +45,10 @@ def build_executable():
             result = subprocess.run(['pyinstaller', '--version'], 
                                   capture_output=True, text=True, check=True)
             pyinstaller_cmd = 'pyinstaller'
-            print(f"✅ Found PyInstaller: {result.stdout.strip()}")
+            print(f"[OK] Found PyInstaller: {result.stdout.strip()}")
         except (subprocess.CalledProcessError, FileNotFoundError):
-            print("❌ PyInstaller not found")
-            print("💡 Run: pip install pyinstaller")
+            print("[ERROR] PyInstaller not found")
+            print("[INFO] Run: pip install pyinstaller")
             return False
     
     # Ensure we're in the right directory
@@ -76,13 +83,13 @@ def build_executable():
     if not os.path.exists("icon.ico"):
         cmd = [arg for arg in cmd if not arg.startswith("--icon")]
     
-    print("🔨 Building PumpkinScheduler executable...")
+    print("[BUILD] Building PumpkinScheduler executable...")
     print(f"Command: {' '.join(cmd)}")
     
     try:
         # Run PyInstaller
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-        print("✅ Build successful!")
+        print("[OK] Build successful!")
         
         # Show output location
         exe_path = project_root / "dist" / "PumpkinScheduler.exe"
@@ -106,10 +113,10 @@ def build_executable():
                 shutil.rmtree("build")
             if os.path.exists("PumpkinScheduler.spec"):
                 os.remove("PumpkinScheduler.spec")
-            print("✅ Build files cleaned up!")
+            print("[OK] Build files cleaned up!")
         
     except subprocess.CalledProcessError as e:
-        print(f"❌ Build failed with error code {e.returncode}")
+        print(f"[ERROR] Build failed with error code {e.returncode}")
         print(f"Error output: {e.stderr}")
         return False
     
@@ -121,7 +128,7 @@ def create_icon():
         from PIL import Image, ImageDraw
         
         if not os.path.exists("icon.ico"):
-            print("🎨 Creating icon file...")
+            print("[ICON] Creating icon file...")
             
             # Create a simple pumpkin icon
             size = 64
@@ -138,15 +145,15 @@ def create_icon():
             
             # Save as ICO
             image.save("icon.ico", format='ICO', sizes=[(64, 64), (32, 32), (16, 16)])
-            print("✅ Icon created: icon.ico")
+            print("[OK] Icon created: icon.ico")
             
     except ImportError:
-        print("⚠️ PIL not available, skipping icon creation")
+        print("[WARN] PIL not available, skipping icon creation")
     except Exception as e:
-        print(f"⚠️ Could not create icon: {e}")
+        print(f"[WARN] Could not create icon: {e}")
 
 if __name__ == "__main__":
-    print("🎃 PumpkinScheduler Build Script")
+    print("PumpkinScheduler Build Script")
     print("=" * 40)
     
     # Create icon if needed
@@ -156,12 +163,12 @@ if __name__ == "__main__":
     success = build_executable()
     
     if success:
-        print("\n🎉 Build complete! Your executable is ready for distribution.")
-        print("\n📋 Distribution Notes:")
+        print("\n[COMPLETE] Build complete! Your executable is ready for distribution.")
+        print("\n[INFO] Distribution Notes:")
         print("- The executable is standalone and doesn't require Python")
         print("- Users need to create their own .env file with FERNET_KEY")
         print("- Perfect for adding to Windows startup folder")
         print("- System tray functionality works on Windows/macOS/Linux")
     else:
-        print("\n❌ Build failed. Check the error messages above.")
+        print("\n[ERROR] Build failed. Check the error messages above.")
         sys.exit(1)
